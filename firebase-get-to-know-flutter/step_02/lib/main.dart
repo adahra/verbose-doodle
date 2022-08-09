@@ -19,7 +19,7 @@ void main() {
   runApp(
     ChangeNotifierProvider(
       create: (context) => ApplicationState(),
-      builder: (context, _) => App(),
+      builder: (context, _) => const App(),
     ),
   );
 }
@@ -287,15 +287,19 @@ class ApplicationState extends ChangeNotifier {
 }
 
 class GuestBook extends StatefulWidget {
-  GuestBook({required this.addMessage, required this.messages});
+  const GuestBook(
+      {super.key, required this.addMessage, required this.messages});
   final FutureOr<void> Function(String message) addMessage;
-  final List<GuestBookMessage> messages; // new
+  final List<GuestBookMessage> messages;
 
   @override
-  _GuestBookState createState() => _GuestBookState();
+  State<GuestBook> createState() {
+    return GuestBookState();
+  } // new
+
 }
 
-class _GuestBookState extends State<GuestBook> {
+class GuestBookState extends State<GuestBook> {
   final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
   final _controller = TextEditingController();
 
@@ -360,7 +364,8 @@ class GuestBookMessage {
 }
 
 class YesNoSelection extends StatelessWidget {
-  const YesNoSelection({required this.state, required this.onSelection});
+  const YesNoSelection(
+      {super.key, required this.state, required this.onSelection});
   final Attending state;
   final void Function(Attending selection) onSelection;
 
